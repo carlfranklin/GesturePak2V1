@@ -1,0 +1,26 @@
+﻿<Window x:Class="GestureTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="Root"
+        Title="MainWindow" Height="768" Width="1024">
+    <Grid>
+        <Border  Background="Black" >
+            <Image x:Name="VideoImage" Source="{Binding VideoImageSource}" Stretch="Uniform" />
+        </Border>
+        <Border x:Name="BodyBorder" Background="Transparent"  >
+            <Image x:Name="BodyImage" Source="{Binding BodyImageSource}" 
+                   Width="{Binding ElementName=VideoImage, Path=Width}" 
+                   Height="{Binding ElementName=VideoImage, Path=Height}"
+                   Stretch="Uniform" />
+        </Border>
+        <TextBlock Background="Transparent"
+                   Text="{Binding ElementName=Root, Path=BigMessage}" 
+                   Foreground="Yellow" Opacity=".8" FontFamily="Arial Black" 
+                   FontWeight="Bold" FontSize="160"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   VerticalAlignment="Center"
+                   />
+
+    </Grid>
+</Window>

@@ -1,0 +1,477 @@
+﻿<Application x:Class="GesturePakRecorder.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:properties="clr-namespace:GesturePakRecorder.Properties"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        
+        <!--<properties:Settings x:Key="Settings" />-->
+        
+        <Style x:Key="TouchButton" TargetType="Button">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bg"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                        Value="False">
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Back/Next Buttons  -->
+
+        <Style x:Key="RadioStyle" TargetType="RadioButton">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Foreground" Value="Gray" />
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Foreground" Value="Beige" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="8"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="1">
+                                <Border.Background>
+                                    <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                        <RadialGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" 
+                                                                ScaleX="1.5" ScaleY="1.5"/>
+                                                <TranslateTransform X="0.02" Y="0.3"/>
+                                            </TransformGroup>
+                                        </RadialGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="1" Color="#00000000"/>
+                                        <GradientStop Offset="0.3" Color="#FFFFFFFF"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  TextElement.FontWeight="Normal">
+
+                                </ContentPresenter>
+                            </Border>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                            <RadialGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                    <TranslateTransform X="0.02" Y="0.3"/>
+                                                </TransformGroup>
+                                            </RadialGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#00000000" Offset="1"/>
+                                            <GradientStop Color="#FF303030" Offset="0.3"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation To="0.5"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- TextBlock  -->
+
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Foreground" Value="Gray" />
+        </Style>
+
+        <!-- Label TextBlock  -->
+
+        <Style x:Key="LabelTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Foreground" Value="BlanchedAlmond" />
+            <Setter Property="Opacity" Value=".7" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+
+
+        <!-- TextBox  -->
+
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Height" Value="31.94" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- PasswordBox -->
+
+        <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Height" Value="31.94" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <!-- ComboBox  -->
+
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ComboBoxItemStyle" TargetType ="ComboBoxItem">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style x:Key="ComboBoxItemContainerStyle" TargetType ="ComboBox">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <!-- Nordic Combo Style -->
+        <Style x:Key="ComboBoxNordicStyle" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ComboBoxNordicItemStyle" TargetType ="ComboBoxItem">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style x:Key="ComboBoxNordicItemContainerStyle" TargetType ="ComboBox">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <!-- ListBox  -->
+
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Foreground" Value="LightGray" />
+        </Style>
+
+        <!-- Video Tab  -->
+
+        <Style x:Key="VideoTabControlStyle" TargetType="TabControl">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Background" Value="Black" />
+        </Style>
+        <Style x:Key="VideoTabItemStyle" TargetType="TabItem">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Foreground" Value="DarkGray" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Tab  -->
+
+        <Style x:Key="TabControlStyle" TargetType="TabControl">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Background" Value="#222222" />
+        </Style>
+        <Style x:Key="TabItemStyle" TargetType="TabItem">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Foreground" Value="DarkGray" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+        <!-- DatePicker  -->
+
+        <Style x:Key="DatePickerStyle" TargetType="DatePicker">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect ShadowDepth="0"
+                                Color="Gold"
+                                Opacity="0"
+                                BlurRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:00"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0.0"
+                                            Storyboard.TargetProperty="(Effect).Opacity"
+                                            Duration="00:00:01"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
+</Application>

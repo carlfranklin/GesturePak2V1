@@ -1,0 +1,144 @@
+﻿<local:SmartUserControl x:Class="GesturePakRecorder.UCPreRecording"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:GesturePakRecorder"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <local:SmartUserControl.Resources>
+        <local:StringLengthToBooleanConverter x:Key="StringLengthToBooleanConverter" />
+    </local:SmartUserControl.Resources>
+    
+    <StackPanel>
+        <TextBlock Style="{StaticResource LabelTextBlockStyle}" Margin="80,30,0,0" Text="New Gesture" />
+        <Grid Margin="0,50,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="5*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}" 
+                       VerticalAlignment="Center" 
+                       Text="Name: "   
+                       TextAlignment="Right"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="GestureNameTextBox" Style="{StaticResource TextBoxStyle}" 
+                     Width="150" 
+                     Margin="15,0,0,0" 
+                     HorizontalAlignment="Left"
+                     ToolTip="Names can include letters, numbers, and spaces."/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockStyle}" 
+                       VerticalAlignment="Center" 
+                       Text="Time Requried: "  
+                       TextAlignment="Right"/>
+            <StackPanel Grid.Row="1" Grid.Column="1" 
+                        Orientation="Horizontal" 
+                        Margin="15,0,0,0" >
+                <TextBox x:Name="GestureSecondsTextBox"
+                         Style="{StaticResource TextBoxStyle}" 
+                         Width="50" 
+                         Text="5" 
+                         ToolTip=" Enter the number of seconds we will record you making your gesture." />
+                <TextBlock Style="{StaticResource TextBlockStyle}" 
+                           Text=" seconds" 
+                           Margin="5,0,0,0" 
+                           VerticalAlignment="Center"  />
+            </StackPanel>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockStyle}" 
+                       VerticalAlignment="Center" 
+                       Text="Track Right Hand State: "  
+                       TextAlignment="Right" 
+                       />
+            <CheckBox Grid.Row="2" Grid.Column="1" x:Name="TrackRightHandStateCheckbox" 
+                      IsChecked="False"
+                      VerticalAlignment="Center" 
+                      Margin="15,0,0,0"
+                      ToolTip="Check off if your gesture involves the state of your RIGHT hand (open, closed, pointing)" >
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockStyle}" 
+                       VerticalAlignment="Center" 
+                       Text="Track Left Hand State: "  
+                       TextAlignment="Right"/>
+            <CheckBox Grid.Row="3" Grid.Column="1" x:Name="TrackLeftHandStateCheckbox" 
+                      IsChecked="False"
+                      VerticalAlignment="Center" 
+                      Margin="15,0,0,0"
+                      ToolTip="Check off if your gesture involves the state of your LEFT hand (open, closed, pointing)">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Track Horizontal Axis (X): "  
+                       VerticalAlignment="Center" 
+                       TextAlignment="Right"/>
+            <CheckBox Grid.Row="4" Grid.Column="1" x:Name="TrackXCheckbox" IsChecked="True"
+                      VerticalAlignment="Center" 
+                      Margin="15,0,0,0"
+                      ToolTip="Check off if your gesture involves moving LEFT and/or RIGHT (X axis).">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Track Vertical Axis (Y): "  
+                       VerticalAlignment="Center" 
+                       TextAlignment="Right"/>
+            <CheckBox Grid.Row="5" Grid.Column="1" x:Name="TrackYCheckbox" IsChecked="True"
+                      VerticalAlignment="Center" 
+                      Margin="15,0,0,0"
+                      ToolTip="Check off if your gesture involves moving UP and/or DOWN (Y axis).">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+
+            <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource TextBlockStyle}" Text="Track Depth Axis (Z): "  
+                       VerticalAlignment="Center" 
+                       TextAlignment="Right"/>
+            <CheckBox Grid.Row="6" Grid.Column="1" x:Name="TrackZCheckbox" IsChecked="False"
+                      VerticalAlignment="Center" 
+                      Margin="15,0,0,0"
+                      ToolTip="Check off if your gesture involves moving FORWARD and/or BACKWARD (Z axis).">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+
+            <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="RecordButton" Style="{StaticResource ButtonStyle}" 
+                    IsEnabled="{Binding ElementName=GestureNameTextBox, Path=Text, Converter={StaticResource StringLengthToBooleanConverter}}"
+                    HorizontalAlignment="Left" 
+                    Content=" Start Recording " 
+                    Width="160" 
+                    Margin="15,0,0,0" 
+                    ToolTip="You will get a 10 second countdown, then perform the gesture until the countdown reaches 0."
+                    Click="RecordButton_Click"/>
+            <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="CancelButton" Style="{StaticResource ButtonStyle}" 
+                    HorizontalAlignment="Left" 
+                    Content=" Cancel "
+                    Width="100" 
+                    Margin="200,0,0,0" 
+                    Click="CancelButton_Click"
+                    />
+            
+        </Grid>
+        
+    </StackPanel>
+</local:SmartUserControl>

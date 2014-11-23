@@ -1,0 +1,58 @@
+﻿<local:SmartUserControl x:Class="GesturePakRecorder.UCTest"
+             xmlns:local="clr-namespace:GesturePakRecorder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="TestRoot">
+    <local:SmartUserControl.Resources>
+        <local:DoubleToStringTwoPlacesConverter x:Key="DoubleToStringTwoPlacesConverter"/>
+    </local:SmartUserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="{Binding ElementName=TestRoot, Path=TopLabel}" />
+        <TextBlock Grid.Row="1" HorizontalAlignment="Right" Style="{StaticResource LabelTextBlockStyle}" Text="{Binding StatusText}" />
+        <Border  Background="Black"  Grid.Row="1" >
+            <Image x:Name="VideoImage" Source="{Binding VideoImageSource}" Stretch="Uniform" />
+        </Border>
+        <Border x:Name="BodyBorder" Background="Transparent"  Grid.Row="1"  >
+            <Image x:Name="BodyImage" Source="{Binding BodyImageSource}" 
+                   Width="{Binding ElementName=VideoImage, Path=Width}" 
+                   Height="{Binding ElementName=VideoImage, Path=Height}"
+                   Stretch="Uniform" />
+        </Border>
+        <TextBlock Background="Transparent" Grid.Row="1" 
+                   Text="{Binding ElementName=TestRoot, Path=BigMessage}" 
+                   Foreground="Yellow" Opacity=".3" FontFamily="Arial Black" 
+                   FontWeight="Bold" FontSize="250"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   VerticalAlignment="Center"
+                   />
+        <StackPanel Orientation="Horizontal" Margin="0,-40,0,0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBlock Background="Transparent" 
+                   Style="{StaticResource TextBlockStyle}"
+                   Text="FPS: " 
+                   VerticalAlignment="Center"
+                   />
+            <TextBlock Background="Transparent" 
+                   Style="{StaticResource LabelTextBlockStyle}"
+                   Text="{Binding FPS, Converter={StaticResource DoubleToStringTwoPlacesConverter}}" 
+                   VerticalAlignment="Center"
+                   />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Button Style="{StaticResource ButtonStyle}" x:Name="DoneButton" Margin="10,0,0,0" Content=" Back "  Width="80" />
+
+        </StackPanel>
+    </Grid>
+</local:SmartUserControl>

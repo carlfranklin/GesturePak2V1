@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GesturePakRecorder", "GesturePakRecorder\GesturePakRecorder.csproj", "{49F291EB-9D27-4016-AB19-29767DE90594}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GesturePakObjects", "..\GesturePakObjects\GesturePakObjects\GesturePakObjects.csproj", "{3B43181F-B070-4449-9E0B-1393E00D7D3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestureTester", "..\GestureTester\GestureTester.csproj", "{3200D931-AD44-4994-BEC2-35CD25016D07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49F291EB-9D27-4016-AB19-29767DE90594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F291EB-9D27-4016-AB19-29767DE90594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F291EB-9D27-4016-AB19-29767DE90594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F291EB-9D27-4016-AB19-29767DE90594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B43181F-B070-4449-9E0B-1393E00D7D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B43181F-B070-4449-9E0B-1393E00D7D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B43181F-B070-4449-9E0B-1393E00D7D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B43181F-B070-4449-9E0B-1393E00D7D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3200D931-AD44-4994-BEC2-35CD25016D07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3200D931-AD44-4994-BEC2-35CD25016D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3200D931-AD44-4994-BEC2-35CD25016D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3200D931-AD44-4994-BEC2-35CD25016D07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

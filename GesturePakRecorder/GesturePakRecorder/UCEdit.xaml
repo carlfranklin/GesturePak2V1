@@ -1,0 +1,142 @@
+﻿<local:SmartUserControl x:Class="GesturePakRecorder.UCEdit"
+             xmlns:local="clr-namespace:GesturePakRecorder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <local:SmartUserControl.Resources>
+        <local:BoolOppositeConverter x:Key="BoolOppositeConverter" />
+    </local:SmartUserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="80" />
+        </Grid.RowDefinitions>
+        <Image x:Name="BodyImage" Source="{Binding Path=ImageSource}" Stretch="None" Grid.Row="1" ToolTip="Click on a joint to toggle tracking. Use the mouse wheel to animate frames." />
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="15,0,0,0">
+            <TextBlock x:Name="CurrentFrameTextBlock" Style="{StaticResource TextBlockStyle}" Width="200" Foreground="AntiqueWhite" />
+            <TextBlock x:Name="CurrentJointTextBlock" Style="{StaticResource TextBlockStyle}" />
+        </StackPanel>
+        
+        <StackPanel Grid.Column="1" Grid.RowSpan="3" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Center" >
+            
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Left" Style="{StaticResource ButtonStyle}" x:Name="AnimateButton" Content=" Animate " Width="120"  Click="AnimateButton_Click" />
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="15,0,0,0">
+                    <CheckBox x:Name="AnimateMatchedFramesOnlyCheckBox"
+                              VerticalAlignment="Center" >
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                    <TextBlock Style="{StaticResource TextBlockStyle}" VerticalAlignment="Center" Margin="5,0,0,0" Text="Matched Frames Only" />
+                </StackPanel>
+            </StackPanel>
+            <Button HorizontalAlignment="Left" Style="{StaticResource ButtonStyle}" x:Name="TrimStartButton" Content=" Trim Start " Width="120" Click="TrimStartButton_Click" Margin="0,20,0,0" />
+            <Button HorizontalAlignment="Left" Style="{StaticResource ButtonStyle}" x:Name="TrimEndButton" Content=" Trim End " Width="120" Click="TrimEndButton_Click" Margin="0,20,0,0" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,40,0,0" HorizontalAlignment="Left">
+                <CheckBox  x:Name="TrackRightHandStateCheckbox" IsChecked="True"
+                          VerticalAlignment="Center" 
+                          ToolTip="Check off if your gesture involves the state of your RIGHT hand (open, closed, pointing)" >
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+                <TextBlock Style="{StaticResource TextBlockStyle}" 
+                           Margin="5,0,0,0"
+                           VerticalAlignment="Center" 
+                           Text="Track Right Hand State"  
+                           TextAlignment="Right" 
+                           />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,0" 
+                        HorizontalAlignment="Left">
+                <CheckBox x:Name="TrackLeftHandStateCheckbox" IsChecked="True"
+                      VerticalAlignment="Center" 
+                      ToolTip="Check off if your gesture involves the state of your LEFT hand (open, closed, pointing)">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+                <TextBlock Style="{StaticResource TextBlockStyle}" 
+                       VerticalAlignment="Center" 
+                       Margin="5,0,0,0"
+                       Text="Track Left Hand State"  
+                       TextAlignment="Right"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,0" HorizontalAlignment="Left">
+                <CheckBox x:Name="TrackXCheckbox" IsChecked="True"
+                      VerticalAlignment="Center" 
+                      ToolTip="Check off if your gesture involves moving LEFT and/or RIGHT (X axis).">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Track Horizontal Axis (X)"  
+                      Margin="5,0,0,0"
+                       VerticalAlignment="Center" 
+                       TextAlignment="Right"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,0" HorizontalAlignment="Left">
+                <CheckBox x:Name="TrackYCheckbox" IsChecked="True"
+                      VerticalAlignment="Center" 
+                      ToolTip="Check off if your gesture involves moving UP and/or DOWN (Y axis).">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Track Vertical Axis (Y)"  
+                      Margin="5,0,0,0"
+                       VerticalAlignment="Center" 
+                       TextAlignment="Right"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,0" HorizontalAlignment="Left">
+                <CheckBox x:Name="TrackZCheckbox" IsChecked="False"
+                          VerticalAlignment="Center" 
+                          ToolTip="Check off if your gesture involves moving FORWARD and/or BACKWARD (Z axis).">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+                <TextBlock Style="{StaticResource TextBlockStyle}" Text="Track Depth Axis (Z)"  
+                          Margin="5,0,0,0"
+                       VerticalAlignment="Center" 
+                       TextAlignment="Right"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,0" HorizontalAlignment="Left">
+                <TextBlock Style="{StaticResource TextBlockStyle}" 
+                       Text="Fudge Factor: "  
+                       VerticalAlignment="Center" 
+                       TextAlignment="Right"/>
+                <TextBox Style="{StaticResource TextBoxStyle}" 
+                         Margin="10,0,0,0"
+                         x:Name="FudgeFactorTextBox"
+                         ToolTip="Increasing this number reduces accuracy required to match frames. Decreasing this number means your joint positions have to be more accurate to match frames."
+                         Width="40"
+                         Text="0.2"/>
+            </StackPanel>
+
+            <Button HorizontalAlignment="Left" x:Name="MatchButton" Style="{StaticResource ButtonStyle}" Content=" Match " ToolTip="Click to toggle this frame to be matched." Width="120" Margin="0,30,0,0" Click="MatchButton_Click" />
+            <Button HorizontalAlignment="Left" x:Name="TestButton" Style="{StaticResource ButtonStyle}" Content=" Test " ToolTip="Click to test your gesture!" Width="120" Margin="0,15,0,0" Click="TestButton_Click"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="15,0,0,0">
+            <Button Style="{StaticResource ButtonStyle}" x:Name="DoneButton" Margin="10,0,0,0" Content=" Back "  Width="80" Click="DoneButton_Click" />
+        </StackPanel>
+    </Grid>
+</local:SmartUserControl>
