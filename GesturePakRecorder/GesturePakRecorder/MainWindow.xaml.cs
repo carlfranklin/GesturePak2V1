@@ -18,7 +18,6 @@
     using System.Windows.Media.Animation;
     using GesturePak;
     using Microsoft.Win32;
-    using System.Speech.Recognition;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -61,10 +60,6 @@
         bool Testing = false;
 
         string MainWindowPhrases = "Record\r\nLoad\r\nInteract";
-
-        //private UserControl current = null;
-
-        //private SpeechTools.SpeechListener listener = null;
 
         private ObservableCollection<NavPageInfo> uipages = null;
         public ObservableCollection<NavPageInfo> UIPages
@@ -184,13 +179,9 @@
                 case "StartRecording":
                     GestureName = PreRecordingControl.GestureNameTextBox.Text;
                     Recording = true;
-                    Recorder.StartRecording();
-                    //KinectViewer.WriteJpgFiles = true;
                     break;
                 case "StopRecording":
-                    //KinectViewer.WriteJpgFiles = false;
                     Recording = false;
-                    Recorder.StopRecording();
                     var gesture = Recorder.GetRecordedGesture();
                     gesture.Name = GestureName;
                     
@@ -206,25 +197,7 @@
                     EditControl.LoadGesture(filename);
                     MoveTo(EditPage);
 
-                    //SaveFileDialog dialog = new SaveFileDialog()
-                    //{
-                    //    InitialDirectory = GesturePakFolder,
-                    //    FileName = filename,
-                    //    Filter = "Gesture Files(*.xml)|*.xml|All(*.*)|*"
-                    //};
 
-                    //if (dialog.ShowDialog() == true)
-                    //{
-                    //    gesture.TrackLeftHandState = (bool)PreRecordingControl.TrackLeftHandStateCheckbox.IsChecked;
-                    //    gesture.TrackRightHandState = (bool)PreRecordingControl.TrackRightHandStateCheckbox.IsChecked;
-                    //    gesture.TrackXAxis = (bool)PreRecordingControl.TrackXCheckbox.IsChecked;
-                    //    gesture.TrackYAxis = (bool)PreRecordingControl.TrackYCheckbox.IsChecked;
-                    //    gesture.TrackZAxis = (bool)PreRecordingControl.TrackZCheckbox.IsChecked;
-                    //    gesture.SaveFile(dialog.FileName);
-                    //    RecordingControl.GestureFileName = dialog.FileName;
-                    //    EditControl.LoadGesture(dialog.FileName);
-                    //    MoveTo(EditPage);
-                    //}
                     break;
                 case "TestGesture" :
                     TestControl.TopLabel = "Test your gesture" ;
@@ -255,12 +228,7 @@
             KinectViewer.TrackedJointBrush = new SolidColorBrush(Colors.DarkGreen);
             KinectViewer.TrackedBonePen = new Pen(Brushes.Green, 12);
             KinectViewer.FramePrefix = "frame";
-
-            //listener = new SpeechTools.SpeechListener();
-            //listener.RecognitionEngine.SetInputToDefaultAudioDevice();
-            //listener.Phrases = MainWindowPhrases;
-            //listener.SpeechRecognized += listener_SpeechRecognized;
-            //listener.StartListening();
+            KinectViewer.VideoFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\frames";
 
             // Create the gesture recorder
             Recorder = new GestureRecorder();
@@ -271,24 +239,6 @@
                 NotifyPropertyChanged("SelectedPage");
                 OnTransitionComplete(null, HomeControl);
                 this.CurrentPage = HomePage;
-            }
-        }
-
-        void listener_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-        {
-            switch (e.Result.Text)
-            {
-                case "Record" :
-                    MoveTo(PreRecordPage);
-                    break;
-                case "Load":
-                    LoadGesture();
-                    break;
-                case "Interact" :
-                    TestControl.TopLabel = "Play time!";
-                    MoveTo(TestPage);
-                    Testing = false;
-                    break;
             }
         }
 

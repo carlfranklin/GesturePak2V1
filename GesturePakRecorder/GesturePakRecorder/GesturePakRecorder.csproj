@@ -50,7 +50,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Speech" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -79,7 +78,6 @@
     <Compile Include="SmartUserControl.cs" />
     <Compile Include="StringLengthToBooleanConverter.cs" />
     <Compile Include="TimeSpanMSToStringConverter.cs" />
-    <Compile Include="TransitionStates.cs" />
     <Compile Include="UCEdit.xaml.cs">
       <DependentUpon>UCEdit.xaml</DependentUpon>
     </Compile>

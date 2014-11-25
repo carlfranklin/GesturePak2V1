@@ -30,5 +30,5 @@ of the "Hand States" (open, closed, and pointing), and select the axes to track 
 Click the "Test" button to test your gesture.
 
 If you'd like to test ALL of the gestures in the \\Documents\\GesturePak folder (where
-gestures are saved by default), run the GestureTester.sln project. This app is a great
+gestures are saved by default), run the GestureTester project. This app is a great
 sample of how you can match against gestures in your own apps.

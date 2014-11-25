@@ -119,7 +119,6 @@ namespace GesturePak
 
         public Gesture(string FileName) : this()
         {
-            //LoadFileNewFormat(FileName);
             LoadFile(FileName);
         }
 
@@ -195,7 +194,6 @@ namespace GesturePak
             return -1;
         }
 
-
         public void LoadV1File(string FileName)
         {
             try
@@ -236,7 +234,6 @@ namespace GesturePak
                                  TrackZAxis = item.Element("TrackZAxis").Value,
                                  TrackSpineBase = item.Element("TrackHipCenter").Value,
                                  TrackSpineMid = item.Element("TrackSpine").Value,
-                                 //TrackNeck = item.Element("TrackShoulderCenter").Value,
                                  TrackHead = item.Element("TrackHead").Value,
                                  TrackLeftShoulder = item.Element("TrackLeftShoulder").Value,
                                  TrackLeftElbow = item.Element("TrackLeftElbow").Value,
@@ -255,13 +252,6 @@ namespace GesturePak
                                  TrackRightAnkle = item.Element("TrackRightAnkle").Value,
                                  TrackRightFoot = item.Element("TrackRightFoot").Value,
                                  TrackSpineShoulder = item.Element("TrackShoulderCenter").Value,
-                                 //TrackLeftHandTip = item.Element("TrackLeftHandTip").Value,
-                                 //TrackLeftThumb = item.Element("TrackLeftThumb").Value,
-                                 //TrackRightHandTip = item.Element("TrackRightHandTip").Value,
-                                 //TrackRightThumb = item.Element("TrackRightThumb").Value
-
-                                 //LeftHandState = item.Element("LeftHandState").Value,
-                                 //RightHandState = item.Element("RightHandState").Value
                              };
                 foreach (var P in Frames)
                 {
@@ -375,12 +365,6 @@ namespace GesturePak
                         else
                             p.RawData[shouldercenter + 1] = p.RawData[rightshoulder + 1] + (shoulderYDiff / 2);
 
-                        //p.RawData[shouldercenter + 1] = p.RawData[leftshoulder + 1];
-
-                        // Bring the spine mid up halfway between the spine base and shouldercenter
-                        //p.RawData[spine + 1] += .1f;
-
-
                         break;
                     }
                 }
@@ -421,7 +405,7 @@ namespace GesturePak
                 var elOldG = doc.Element("gesture");
                 if (elOldG != null)
                 {
-                    //throw new Exception("This gesture looks like it was created with GesturePak 1.0, and is therefore incompatible. Try making a new gesture.");
+                    // This gesture looks like it was created with GesturePak 1.0
                     LoadV1File(FileName);
                     return;
                 }
@@ -592,7 +576,6 @@ namespace GesturePak
                                       Name = item.Element("Name").Value,
                                       ver = item.Element("Version"),
                                       FudgeFactor = item.Element("FudgeFactor").Value,
-                                      //ObjectData = item.Element("ObjectData").Value,
                                       TrackXAxis = item.Element("TrackXAxis").Value,
                                       TrackYAxis = item.Element("TrackYAxis").Value,
                                       TrackZAxis = item.Element("TrackZAxis").Value,
@@ -630,7 +613,6 @@ namespace GesturePak
                     {
                         this.Name = G.Name;
                         this.FudgeFactor = Single.Parse(G.FudgeFactor, ci);
-                        //this.ObjectData = G.ObjectData;
                         this.TrackXAxis = Convert.ToBoolean(G.TrackXAxis);
                         this.TrackYAxis = Convert.ToBoolean(G.TrackYAxis);
                         this.TrackZAxis = Convert.ToBoolean(G.TrackZAxis);
@@ -780,7 +762,6 @@ namespace GesturePak
             xmlwriter.WriteElementString("Name", Name);
             xmlwriter.WriteElementString("Version", "2.1");
             xmlwriter.WriteElementString("FudgeFactor", FudgeFactor.ToString(ci));
-            //xmlwriter.WriteElementString("ObjectData", ObjectData);
             xmlwriter.WriteElementString("TrackXAxis", TrackXAxis.ToString());
             xmlwriter.WriteElementString("TrackYAxis", TrackYAxis.ToString());
             xmlwriter.WriteElementString("TrackZAxis", TrackZAxis.ToString());

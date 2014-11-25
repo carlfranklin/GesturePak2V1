@@ -12,14 +12,15 @@ using System.Windows;
 namespace GesturePak
 {
     
-    public class GestureViewer : INotifyPropertyChanged, IDisposable    
+    public class GestureViewer : INotifyPropertyChanged 
     {
-        public delegate void DrawingFrameEventHandler(object sender, DrawingFrameEventArgs e);
+        private bool drawing = false;
 
+        public delegate void DrawingFrameEventHandler(object sender, DrawingFrameEventArgs e);
         public event DrawingFrameEventHandler DrawingFrame;
         public event DrawingFrameEventHandler FrameDrawn;
-
         public event PropertyChangedEventHandler PropertyChanged;
+        
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)
@@ -71,6 +72,9 @@ namespace GesturePak
         }
 
         string mouseOverJointName = "";
+        /// <summary>
+        /// The name of the joint that the mouse is over
+        /// </summary>
         public String MouseOverJointName
         {
             get { return mouseOverJointName; }
@@ -96,11 +100,21 @@ namespace GesturePak
             }
         }
 
+        /// <summary>
+        /// Draw the body from the current frame
+        /// </summary>
         public void Refresh()
         {
-            drawBodyFromFrame(loadedGesture.Frames[animationIndex]);
+            if (animationIndex < 0) return;
+            var frame = loadedGesture.Frames[animationIndex];
+            if (frame == null) return;
+            drawBodyFromFrame(frame);
         }
 
+        /// <summary>
+        /// Get the Joint Index based on where the mouse cursor is
+        /// </summary>
+        /// <returns></returns>
         public int JointNumberFromCursor()
         {
             if (CurrentJointPoints == null) return -1;
@@ -111,8 +125,6 @@ namespace GesturePak
             mp.Y -= JointThickness;
 
             Rect r = new Rect(mp, new Size(w, w));
-
-            //Console.WriteLine(mp.X.ToString() + " " + mp.Y.ToString());
 
             foreach (var jp in CurrentJointPoints)
             {
@@ -197,8 +209,11 @@ namespace GesturePak
 
         private Dictionary<JointType, Point> CurrentJointPoints;
 
-        // :GP: Reference to the loaded gesture
+        // Reference to the loaded gesture
         private Gesture loadedGesture = null;
+        /// <summary>
+        /// Get the currently loaded gesture
+        /// </summary>
         public Gesture LoadedGesture
         {
             get { return loadedGesture; }
@@ -235,6 +250,9 @@ namespace GesturePak
         }
 
         private bool allowMouseWheelScrub = true;
+        /// <summary>
+        /// Gets and sets whether mouse wheel scrubbing is enabled
+        /// </summary>
         public bool AllowMouseWheelScrub
         {
             get { return allowMouseWheelScrub; }
@@ -246,6 +264,9 @@ namespace GesturePak
         }
 
         private bool animateAllFrames = true;
+        /// <summary>
+        /// Gets and sets whether to animate all frames or just the matched frames
+        /// </summary>
         public bool AnimateAllFrames
         {
             get { return animateAllFrames; }
@@ -267,6 +288,9 @@ namespace GesturePak
         }
 
         private bool allowJointSelection = true;
+        /// <summary>
+        /// Gets and sets whether to allow the user to select a joint by clicking on it
+        /// </summary>
         public bool AllowJointSelection
         {
             get { return allowJointSelection; }
@@ -277,17 +301,27 @@ namespace GesturePak
             }
         }
 
+        /// <summary>
+        /// Returns the current frame number
+        /// </summary>
         public int CurrentFrameNumber
         {
             get { return animationIndex + 1; }
         }
 
+        /// <summary>
+        /// Sets the current frame number
+        /// </summary>
+        /// <param name="value"></param>
         void SetAnimationIndex(int value)
         {
             animationIndex = value;
             NotifyPropertyChanged("CurrentFrameNumber");
         }
 
+        /// <summary>
+        /// Returns the total number of frames
+        /// </summary>
         public int TotalFrames
         {
             get { return animationFrames.Count; }
@@ -307,11 +341,13 @@ namespace GesturePak
             }
         }
 
-        // :GP: Used to display recorded gesture
+        // Used to display recorded gesture
         private System.Windows.Threading.DispatcherTimer animationTimer;
 
-        // :GP: The index of the body frame being shown
+        // The index of the body frame being shown
         private int animationIndex = 0;
+
+
         System.Windows.Controls.Image ImageControl;
 
         public GestureViewer(System.Windows.Controls.Image ImageControl)
@@ -320,23 +356,20 @@ namespace GesturePak
 
             this.ImageControl = ImageControl;
             var kinectSensor = KinectSensor.GetDefault();
-            //kinectSensor.Open();
+
             // get the depth (display) extents
             FrameDescription frameDescription = kinectSensor.DepthFrameSource.FrameDescription;
             this.displayWidth = frameDescription.Width;
             this.displayHeight =  frameDescription.Height;
-            //ImageControl.Width = displayWidth;
-            //ImageControl.Height = displayHeight;
             
             ImageControl.MouseWheel += ImageControl_MouseWheel;
             ImageControl.MouseMove += ImageControl_MouseMove;
             ImageControl.MouseUp += ImageControl_MouseUp;
-            //kinectSensor.Close();
-            //kinectSensor.Dispose();
 
             animationTimer = new System.Windows.Threading.DispatcherTimer();
             animationTimer.Interval = TimeSpan.FromMilliseconds(30);
             animationTimer.Tick += animationTimer_Tick;
+
             // Create the drawing group we'll use for drawing
             this.drawingGroup = new DrawingGroup();
 
@@ -386,7 +419,9 @@ namespace GesturePak
             }
         }
 
-
+        /// <summary>
+        /// Start playing the animation
+        /// </summary>
         public void StartAnimation()
         {
             if (loadedGesture == null) return;
@@ -399,6 +434,9 @@ namespace GesturePak
             animationTimer.Start();
         }
 
+        /// <summary>
+        /// Stop playing the animation
+        /// </summary>
         public void StopAnimation()
         {
             animationTimer.Stop();
@@ -409,6 +447,10 @@ namespace GesturePak
             ShowNextFrame();
         }
 
+        /// <summary>
+        /// Get the current frame
+        /// </summary>
+        /// <returns></returns>
         public GesturePak.Frame CurrentFrame()
         {
             if (loadedGesture == null) return null;
@@ -423,8 +465,9 @@ namespace GesturePak
             else return null;
         }
 
-        bool drawing = false;
-
+        /// <summary>
+        /// Moves to the next frame
+        /// </summary>
         public void ShowNextFrame()
         {
             if (animationFrames == null) return;
@@ -442,6 +485,9 @@ namespace GesturePak
             }
         }
 
+        /// <summary>
+        /// Moves to the previous frame
+        /// </summary>
         public void ShowPreviousFrame()
         {
             if (animationFrames == null) return;
@@ -458,6 +504,10 @@ namespace GesturePak
             }
         }
 
+        /// <summary>
+        /// Move to a particular frame
+        /// </summary>
+        /// <param name="FrameNumber"></param>
         public void SetFrameNumber(int FrameNumber)
         {
             if (animationFrames == null) return;
@@ -473,6 +523,9 @@ namespace GesturePak
             }
         }
 
+        /// <summary>
+        /// Clear the body image being displayed
+        /// </summary>
         void clearBodyImage()
         {
             using (DrawingContext dc = this.drawingGroup.Open())
@@ -481,7 +534,10 @@ namespace GesturePak
             }
         }
 
-        // :GC: High-level code to call when you really only want to draw one body frame at a time.
+        /// <summary>
+        /// High-level code to call when you really only want to draw one body frame at a time.
+        /// </summary>
+        /// <param name="Frame"></param>
         void drawBodyFromFrame(GesturePak.Frame Frame)
         {
             try
@@ -497,15 +553,6 @@ namespace GesturePak
                     // draw the body
                     var joints = (Dictionary<JointType, Joint>)Frame.Joints;
 
-                    // convert the joint points to depth (display) space
-                    //Dictionary<JointType, Point> jointPoints = new Dictionary<JointType, Point>();
-                    //foreach (JointType jointType in joints.Keys)
-                    //{
-                    //    // map the raw value to a coordinate.
-                    //    double X = ((displayWidth / 2.5) * joints[jointType].Position.X) + (displayWidth / 2.15);
-                    //    double Y = displayHeight - (((displayHeight / 2) * joints[jointType].Position.Y) + (displayHeight / 1.7));
-                    //    jointPoints[jointType] = new Point(X, Y);
-                    //}
 
                     Dictionary<JointType, Point> jointPoints = new Dictionary<JointType, Point>();
                     foreach (JointType jointType in joints.Keys)
@@ -513,7 +560,6 @@ namespace GesturePak
                         DepthSpacePoint depthSpacePoint = mapper.MapCameraPointToDepthSpace(joints[jointType].Position);
                         jointPoints[jointType] = new Point(depthSpacePoint.X, depthSpacePoint.Y);
                     }
-                    //this.DrawBody(joints, jointPoints, dc);
 
                     var args = new DrawingFrameEventArgs(Frame, jointPoints, dc);
 
@@ -628,9 +674,6 @@ namespace GesturePak
                 {
                     drawJoint(Gesture.JointTrackOptions[(int)jointType], jointPoints[jointType], drawingContext);
                 }
-
-                //int HeadX = Convert.ToInt32(jointPoints[JointType.Head].X);
-                //int HeadY = Convert.ToInt32(jointPoints[JointType.Head].Y);
             }
             catch (Exception ex)
             {
@@ -648,11 +691,15 @@ namespace GesturePak
             dc.DrawEllipse(drawBrush, null, pt, this.jointThickness, this.jointThickness);
         }
 
+        /// <summary>
+        /// Load a gesture asyncronously
+        /// </summary>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
         public async Task LoadGestureAsync(string FileName)
         {
             try
             {
-                //var gestures = new List<Gesture>();
                 loadedGesture = new Gesture();
                 
                 await loadedGesture.LoadFileAsync(FileName);
@@ -665,10 +712,6 @@ namespace GesturePak
 
                 SetAnimationIndex(0);
 
-                //gestures.Add(loadedGesture);
-
-                //drawBodyFromFrame(loadedGesture.Frames[0]);
-
             }
             catch (Exception)
             {
@@ -677,6 +720,10 @@ namespace GesturePak
             }
         }
 
+        /// <summary>
+        /// Load a gesture into the viewer
+        /// </summary>
+        /// <param name="FileName"></param>
         public void LoadGesture(string FileName)
         {
             try
@@ -703,6 +750,9 @@ namespace GesturePak
             }
         }
 
+        /// <summary>
+        /// Close the gesture
+        /// </summary>
         public void CloseGesture()
         {
             if (animationTimer != null)
@@ -713,9 +763,5 @@ namespace GesturePak
             SetAnimationIndex(0);
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -8,6 +8,9 @@ using System.Collections.ObjectModel;
 
 namespace GesturePak
 {
+    /// <summary>
+    /// Matches real time movements against a list of GesturePak Gestures.
+    /// </summary>
     public class GestureMatcher
     {
         private List<Gesture> _gestures;
@@ -24,19 +27,28 @@ namespace GesturePak
             }
         }
 
-        public GestureMatcher(List<Gesture> Gestures, Body Body)
-        {
-            this.Gestures = Gestures;
-            this.Body = Body;
-        }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="Gestures">A List of Gestures to match against</param>
         public GestureMatcher(List<Gesture> Gestures)
         {
             this.Gestures = Gestures;
         }
 
+        /// <summary>
+        /// The body you're tracking. If you are tracking multiple bodies, use multiple GestureMatchers.
+        /// </summary>
         public Body Body {get; set;}
 
+        /// <summary>
+        /// Returns true if the hand states match
+        /// </summary>
+        /// <param name="gesture"></param>
+        /// <param name="frame"></param>
+        /// <param name="realTimeFrame"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
         private bool HandStatesMatch(Gesture gesture, Frame frame, Frame realTimeFrame, bool defaultValue)
         {
             if (gesture.TrackLeftHandState)
@@ -60,7 +72,10 @@ namespace GesturePak
             }
         }
 
-
+        /// <summary>
+        /// Call this when you get a real-time frame.
+        /// </summary>
+        /// <returns>Returns null if no match, or the gesture that matches</returns>
         public Gesture GetMatch()
         {
             if (Gestures == null) return null;

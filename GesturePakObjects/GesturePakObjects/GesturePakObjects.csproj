@@ -65,7 +65,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Speech" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -83,7 +82,6 @@
     <Compile Include="GestureRecorder.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="GestureViewer.cs" />
-    <Compile Include="global.cs" />
     <Compile Include="MouseUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
